@@ -1,125 +1,162 @@
-import { useState } from "react";
-
+import React, { useState } from "react";
 import axios from "axios";
-
-
+import { Link } from "react-router-dom";
 
 function Login() {
 
-  const [formData, setFormData] =
-  useState({
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
 
-    email: "",
-    password: "",
-  });
+    const handleSubmit = async (e) => {
 
+        e.preventDefault();
 
+        try {
 
+            const { data } = await axios.post(
+                "https://trading-web-app-7jrl.onrender.com/login",
+                {
+                    email,
+                    password,
+                },
+                {
+                    withCredentials: true,
+                }
+            );
 
-  const handleSubmit =
-  async (e) => {
+            if (data.success) {
 
-    e.preventDefault();
+                alert("Login Successful");
 
-    try {
+                window.location.href =
+                "https://main.d34gr18chlppqj.amplifyapp.com";
+            }
 
-      const { data } =
-      await axios.post(
+            else {
 
-        "https://trading-web-app-7jrl.onrender.com/api/auth/login",
+                alert(data.message);
+            }
 
-        formData,
-
-        {
-          withCredentials: true,
         }
-      );
 
+        catch (err) {
 
+            console.log(err);
+            alert("Some error occurred");
+        }
+    };
 
-      if (data.success) {
+    return (
 
-        alert(data.message);
+        <div className="container">
 
-        window.location.href =
-          "https://main.d34gr18chlppqj.amplifyapp.com";
-      }
+            <div
+                className="row justify-content-center align-items-center"
+                style={{ minHeight: "80vh" }}
+            >
 
-      else {
+                <div className="col-lg-5 col-md-7 col-11">
 
-        alert(data.message);
-      }
+                    <div
+                        className="p-5 shadow-sm border rounded-4 bg-white"
+                    >
 
-    }
+                        <h2
+                            className="text-center mb-3"
+                            style={{
+                                color: "#387ed1",
+                                fontWeight: "600",
+                            }}
+                        >
+                            Login
+                        </h2>
 
-    catch (err) {
+                        <p
+                            className="text-center text-muted mb-4"
+                        >
+                            Welcome back, continue your trading journey
+                        </p>
 
-      console.log(err);
+                        <form onSubmit={handleSubmit}>
 
-      alert("Login Failed");
-    }
-  };
+                            <div className="mb-4">
 
+                                <label className="form-label">
+                                    Email
+                                </label>
 
+                                <input
+                                    type="email"
+                                    className="form-control p-3"
+                                    placeholder="Enter your email"
+                                    value={email}
+                                    onChange={(e) =>
+                                        setEmail(e.target.value)
+                                    }
+                                    required
+                                />
 
+                            </div>
 
-  return (
+                            <div className="mb-4">
 
-    <div>
+                                <label className="form-label">
+                                    Password
+                                </label>
 
-      <h1>Login</h1>
+                                <input
+                                    type="password"
+                                    className="form-control p-3"
+                                    placeholder="Enter your password"
+                                    value={password}
+                                    onChange={(e) =>
+                                        setPassword(e.target.value)
+                                    }
+                                    required
+                                />
 
+                            </div>
 
-      <form onSubmit={handleSubmit}>
+                            <button
+                                type="submit"
+                                className="btn w-100 p-3"
+                                style={{
+                                    backgroundColor: "#387ed1",
+                                    color: "white",
+                                    fontWeight: "600",
+                                }}
+                            >
+                                Login
+                            </button>
 
-        <input
+                        </form>
 
-          type="email"
+                        <p className="text-center mt-4">
 
-          placeholder="Email"
+                            Don’t have an account?
 
-          onChange={(e) =>
-            setFormData({
+                            <Link
+                                to="/signup"
+                                className="ms-2"
+                                style={{
+                                    color: "#387ed1",
+                                    textDecoration: "none",
+                                    fontWeight: "600",
+                                }}
+                            >
+                                Signup
+                            </Link>
 
-              ...formData,
+                        </p>
 
-              email:
-              e.target.value,
-            })
-          }
-        />
+                    </div>
 
+                </div>
 
+            </div>
 
-        <input
-
-          type="password"
-
-          placeholder="Password"
-
-          onChange={(e) =>
-            setFormData({
-
-              ...formData,
-
-              password:
-              e.target.value,
-            })
-          }
-        />
-
-
-
-        <button type="submit">
-
-          Login
-
-        </button>
-
-      </form>
-
-    </div>
-  );
+        </div>
+    );
 }
 
 export default Login;
