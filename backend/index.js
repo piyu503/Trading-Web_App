@@ -48,6 +48,9 @@ app.use(express.json());
 
 app.use("/api/auth", authRoutes);
 
+app.get("/", (req, res) => {
+  res.send("Backend Running Successfully");
+});
 
 
 // app.get('/addHoldings',async(req,res)=>{
