@@ -122,142 +122,136 @@ const Summary = () => {
 
 
   return (
-    <>
 
-      <div className="username">
-
-        <h6>
-
-          Hi,
-
-          {
-            user?.username
-            ?
-            user.username
-            :
-            "User"
-          }
-
-          !
-
-        </h6>
-
-        <hr className="divider" />
-
-      </div>
+    <div className="summary-container">
 
 
 
 
-      <div className="section">
+      <div className="summary-header">
 
-        <span>
-          <p>Portfolio Summary</p>
-        </span>
+        <div>
 
+          <h2>
 
+            Welcome back,
 
+            {
+              user?.username
+              ?
+              ` ${user.username}`
+              :
+              " User"
+            }
 
-        <div className="data">
+          </h2>
 
-          <div className="first">
-
-            <h3
-              className={
-                isProfit
-                ?
-                "profit"
-                :
-                "loss"
-              }
-            >
-
-              ₹
-              {
-                summary.pnl
-                .toFixed(2)
-              }
-
-            </h3>
-
-            <p>Total P&L</p>
-
-          </div>
-
-
-
-
-          <hr />
-
-
-
-
-          <div className="second">
-
-            <p>
-
-              Holdings
-
-              <span>
-
-                {
-                  summary
-                  .holdingsCount
-                }
-
-              </span>
-
-            </p>
-
-
-
-
-            <p>
-
-              Investment
-
-              <span>
-
-                ₹
-                {
-                  summary
-                  .totalInvestment
-                  .toFixed(2)
-                }
-
-              </span>
-
-            </p>
-
-
-
-
-            <p>
-
-              Current Value
-
-              <span>
-
-                ₹
-                {
-                  summary
-                  .currentValue
-                  .toFixed(2)
-                }
-
-              </span>
-
-            </p>
-
-          </div>
+          <p>
+            Here's your portfolio overview
+          </p>
 
         </div>
 
-        <hr className="divider" />
+      </div>
+
+
+
+
+
+      <div className="summary-cards">
+
+
+
+
+        <div className="summary-card">
+
+          <p>Total Investment</p>
+
+          <h3>
+
+            ₹
+            {
+              summary
+              .totalInvestment
+              .toFixed(2)
+            }
+
+          </h3>
+
+        </div>
+
+
+
+
+
+        <div className="summary-card">
+
+          <p>Current Value</p>
+
+          <h3>
+
+            ₹
+            {
+              summary
+              .currentValue
+              .toFixed(2)
+            }
+
+          </h3>
+
+        </div>
+
+
+
+
+
+        <div className="summary-card">
+
+          <p>Total Holdings</p>
+
+          <h3>
+
+            {
+              summary
+              .holdingsCount
+            }
+
+          </h3>
+
+        </div>
+
+
+
+
+
+        <div className="summary-card">
+
+          <p>Total P&L</p>
+
+          <h3
+
+            className={
+              isProfit
+              ?
+              "profit"
+              :
+              "loss"
+            }
+          >
+
+            ₹
+            {
+              summary.pnl
+              .toFixed(2)
+            }
+
+          </h3>
+
+        </div>
 
       </div>
 
-    </>
+    </div>
   );
 };
 
