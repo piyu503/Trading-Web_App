@@ -1,5 +1,5 @@
 const { model } = require("mongoose");
-const {Schema} = require("Mongoose");
+const {Schema} = require("mongoose");
 
 const PositionsSchema=new Schema({
     product: String,
