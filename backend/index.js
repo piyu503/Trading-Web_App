@@ -24,7 +24,8 @@ const PositionsModel =
 require("./model/PositionsModel");  
 const SummaryRoute =
 require("./routes/SummaryRoute");
-
+const PositionsRoute =
+require("./routes/PositionsRoute");
 
 
 require("dotenv").config();   //env value go to system process 
