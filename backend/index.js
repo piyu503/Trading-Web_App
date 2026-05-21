@@ -21,7 +21,7 @@ require("./routes/BuyRoute");
 const OrdersRoute =
 require("./routes/OrdersRoute");
 const PositionsModel =
-require("../model/PositionsModel");  //already did below 
+require("./model/PositionsModel");  
 const SummaryRoute =
 require("./routes/SummaryRoute");
 
