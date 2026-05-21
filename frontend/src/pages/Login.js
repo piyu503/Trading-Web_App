@@ -1,11 +1,27 @@
 import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { Link } from "react-router-dom";
 
-function Login() {
+const Login = () => {
 
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    const navigate = useNavigate();
+
+    const [inputValue, setInputValue] = useState({
+        email: "",
+        password: "",
+    });
+
+    const { email, password } = inputValue;
+
+    const handleOnChange = (e) => {
+
+        const { name, value } = e.target;
+
+        setInputValue({
+            ...inputValue,
+            [name]: value,
+        });
+    };
 
     const handleSubmit = async (e) => {
 
@@ -14,36 +30,54 @@ function Login() {
         try {
 
             const { data } = await axios.post(
+
                 "https://trading-web-app-7jrl.onrender.com/login",
+
                 {
-                    email,
-                    password,
+                    ...inputValue,
                 },
+
                 {
                     withCredentials: true,
                 }
             );
 
-            if (data.success) {
+            console.log(data);
 
-                alert("Login Successful");
+            const { success, message } = data;
 
-                window.location.href =
-                "https://main.d34gr18chlppqj.amplifyapp.com";
+            if (success) {
+
+                alert(message);
+
+                setTimeout(() => {
+
+                    window.location.href =
+                    "https://main.d34gr18chlppqj.amplifyapp.com";
+
+                }, 1000);
+
             }
 
             else {
 
-                alert(data.message);
+                alert(message);
             }
 
         }
 
-        catch (err) {
+        catch (error) {
 
-            console.log(err);
+            console.log(error);
+
             alert("Some error occurred");
         }
+
+        setInputValue({
+            ...inputValue,
+            email: "",
+            password: "",
+        });
     };
 
     return (
@@ -87,12 +121,11 @@ function Login() {
 
                                 <input
                                     type="email"
+                                    name="email"
                                     className="form-control p-3"
                                     placeholder="Enter your email"
                                     value={email}
-                                    onChange={(e) =>
-                                        setEmail(e.target.value)
-                                    }
+                                    onChange={handleOnChange}
                                     required
                                 />
 
@@ -106,12 +139,11 @@ function Login() {
 
                                 <input
                                     type="password"
+                                    name="password"
                                     className="form-control p-3"
                                     placeholder="Enter your password"
                                     value={password}
-                                    onChange={(e) =>
-                                        setPassword(e.target.value)
-                                    }
+                                    onChange={handleOnChange}
                                     required
                                 />
 
@@ -157,6 +189,6 @@ function Login() {
 
         </div>
     );
-}
+};
 
 export default Login;
