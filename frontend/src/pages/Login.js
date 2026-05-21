@@ -1,194 +1,194 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
 import axios from "axios";
 
-const Login = () => {
+function Login() {
 
-    const navigate = useNavigate();
+  const [formData, setFormData] =
+  useState({
 
-    const [inputValue, setInputValue] = useState({
-        email: "",
-        password: "",
-    });
+    email: "",
+    password: "",
+  });
 
-    const { email, password } = inputValue;
 
-    const handleOnChange = (e) => {
 
-        const { name, value } = e.target;
 
-        setInputValue({
-            ...inputValue,
-            [name]: value,
-        });
-    };
+  const handleSubmit =
+  async (e) => {
 
-    const handleSubmit = async (e) => {
+    e.preventDefault();
 
-        e.preventDefault();
+    try {
 
-        try {
+      const { data } =
+      await axios.post(
 
-            const { data } = await axios.post(
+        "https://trading-web-app-7jrl.onrender.com/api/auth/login",
 
-                "https://trading-web-app-7jrl.onrender.com/login",
+        formData,
 
-                {
-                    ...inputValue,
-                },
-
-                {
-                    withCredentials: true,
-                }
-            );
-
-            console.log(data);
-
-            const { success, message } = data;
-
-            if (success) {
-
-                alert(message);
-
-                setTimeout(() => {
-
-                    window.location.href =
-                    "https://main.d34gr18chlppqj.amplifyapp.com";
-
-                }, 1000);
-
-            }
-
-            else {
-
-                alert(message);
-            }
-
+        {
+          withCredentials: true,
         }
+      );
 
-        catch (error) {
 
-            console.log(error);
 
-            alert("Some error occurred");
-        }
+      if (data.success) {
 
-        setInputValue({
-            ...inputValue,
-            email: "",
-            password: "",
-        });
-    };
+        alert(data.message);
 
-    return (
+        window.location.href =
+          "https://main.d34gr18chlppqj.amplifyapp.com";
+      }
 
-        <div className="container">
+      else {
 
-            <div
-                className="row justify-content-center align-items-center"
-                style={{ minHeight: "80vh" }}
+        alert(data.message);
+      }
+
+    }
+
+    catch (err) {
+
+      console.log(err);
+
+      alert("Login Failed");
+    }
+  };
+
+
+
+
+  return (
+
+    <div className="container">
+
+      <div
+        className="row justify-content-center align-items-center"
+        style={{
+          minHeight: "80vh",
+        }}
+      >
+
+        <div className="col-lg-5 col-md-7 col-11">
+
+          <div
+            className="bg-white p-5 border rounded-4 shadow-sm"
+          >
+
+            <h1
+              className="text-center mb-3"
+              style={{
+                color: "#387ed1",
+                fontWeight: "600",
+              }}
             >
+              Login
+            </h1>
 
-                <div className="col-lg-5 col-md-7 col-11">
+            <p
+              className="text-center text-muted mb-4"
+            >
+              Welcome back, continue your trading journey
+            </p>
 
-                    <div
-                        className="p-5 shadow-sm border rounded-4 bg-white"
-                    >
 
-                        <h2
-                            className="text-center mb-3"
-                            style={{
-                                color: "#387ed1",
-                                fontWeight: "600",
-                            }}
-                        >
-                            Login
-                        </h2>
 
-                        <p
-                            className="text-center text-muted mb-4"
-                        >
-                            Welcome back, continue your trading journey
-                        </p>
+            <form onSubmit={handleSubmit}>
 
-                        <form onSubmit={handleSubmit}>
+              <div className="mb-4">
 
-                            <div className="mb-4">
+                <label className="form-label">
+                  Email
+                </label>
 
-                                <label className="form-label">
-                                    Email
-                                </label>
+                <input
 
-                                <input
-                                    type="email"
-                                    name="email"
-                                    className="form-control p-3"
-                                    placeholder="Enter your email"
-                                    value={email}
-                                    onChange={handleOnChange}
-                                    required
-                                />
+                  type="email"
 
-                            </div>
+                  className="form-control p-3"
 
-                            <div className="mb-4">
+                  placeholder="Enter your email"
 
-                                <label className="form-label">
-                                    Password
-                                </label>
+                  value={formData.email}
 
-                                <input
-                                    type="password"
-                                    name="password"
-                                    className="form-control p-3"
-                                    placeholder="Enter your password"
-                                    value={password}
-                                    onChange={handleOnChange}
-                                    required
-                                />
+                  onChange={(e) =>
+                    setFormData({
 
-                            </div>
+                      ...formData,
 
-                            <button
-                                type="submit"
-                                className="btn w-100 p-3"
-                                style={{
-                                    backgroundColor: "#387ed1",
-                                    color: "white",
-                                    fontWeight: "600",
-                                }}
-                            >
-                                Login
-                            </button>
+                      email:
+                      e.target.value,
+                    })
+                  }
+                />
 
-                        </form>
+              </div>
 
-                        <p className="text-center mt-4">
 
-                            Don’t have an account?
 
-                            <Link
-                                to="/signup"
-                                className="ms-2"
-                                style={{
-                                    color: "#387ed1",
-                                    textDecoration: "none",
-                                    fontWeight: "600",
-                                }}
-                            >
-                                Signup
-                            </Link>
 
-                        </p>
+              <div className="mb-4">
 
-                    </div>
+                <label className="form-label">
+                  Password
+                </label>
 
-                </div>
+                <input
 
-            </div>
+                  type="password"
+
+                  className="form-control p-3"
+
+                  placeholder="Enter your password"
+
+                  value={formData.password}
+
+                  onChange={(e) =>
+                    setFormData({
+
+                      ...formData,
+
+                      password:
+                      e.target.value,
+                    })
+                  }
+                />
+
+              </div>
+
+
+
+
+              <button
+
+                type="submit"
+
+                className="btn w-100 p-3"
+
+                style={{
+                  backgroundColor: "#387ed1",
+                  color: "white",
+                  fontWeight: "600",
+                  border: "none",
+                }}
+              >
+
+                Login
+
+              </button>
+
+            </form>
+
+          </div>
 
         </div>
-    );
-};
+
+      </div>
+
+    </div>
+  );
+}
 
 export default Login;
