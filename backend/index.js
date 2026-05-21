@@ -12,12 +12,12 @@ require("./routes/authRoute");
 //Holding Route
 const HoldingsRoute =
 require("./routes/HoldingsRoute");
-app.use(HoldingsRoute);
+
 
 //Buy Route
 const BuyRoute =
 require("./routes/BuyRoute");
-app.use(BuyRoute);
+
 
 
 require("dotenv").config();   //env value go to system process 
@@ -55,6 +55,9 @@ app.set("trust proxy", 1);
 app.use(express.json());
 
 app.use("/api/auth", authRoutes);
+
+app.use(HoldingsRoute);
+app.use(BuyRoute);
 
 app.get("/", (req, res) => {
   res.send("Backend Running Successfully");
