@@ -70,9 +70,11 @@ async (req, res) => {
 
             name,
 
-            qty,
+            qty:
+            Number(qty),
 
-            price,
+            price:
+            Number(price),
 
             mode,
         });
@@ -100,7 +102,7 @@ async (req, res) => {
             Number(qty);
 
             existingHolding.price =
-            price;
+            Number(price);
 
             await existingHolding.save();
         }
@@ -114,11 +116,14 @@ async (req, res) => {
 
                 name,
 
-                qty,
+                qty:
+                Number(qty),
 
-                avg: price,
+                avg:
+                Number(price),
 
-                price,
+                price:
+                Number(price),
 
                 net: "+0%",
 
@@ -146,6 +151,9 @@ async (req, res) => {
         res.status(500).json({
 
             success: false,
+
+            message:
+            err.message,
         });
     }
 });
