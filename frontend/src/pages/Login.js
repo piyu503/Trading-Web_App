@@ -26,7 +26,7 @@ function Login() {
       const { data } =
       await axios.post(
 
-        "http://localhost:3002/api/auth/login",
+        "https://trading-web-app-7jrl.onrender.com/api/auth/login",
 
         formData,
 

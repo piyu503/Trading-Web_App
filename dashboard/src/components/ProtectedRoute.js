@@ -35,7 +35,7 @@ function ProtectedRoute({
         const { data } =
         await axios.post(
 
-          "http://localhost:3002/api/auth/verify",
+          "https://trading-web-app-7jrl.onrender.com/api/auth/verify",
 
           {},
 
