@@ -1,6 +1,8 @@
 const dns = require("node:dns"); 
 dns.setServers(["8.8.8.8", "8.8.4.4"]);
 
+
+
 //login credentials
 const cookieParser =
 require("cookie-parser");
@@ -14,6 +16,7 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");      //parsing the data
 const cors = require("cors");                   //for secure link
 
+app.set("trust proxy", 1);
 
 const {HoldingsModel}=require('./model/HoldingsModel');
 
@@ -32,15 +35,10 @@ app.use(
     origin: [
       "http://localhost:3000",
       "http://localhost:3001",
+      "https://main.d26oajyyujqkke.amplifyapp.com",
+      "https://main.d34gr18chlppqj.amplifyapp.com",
     ],
-
-    methods: [
-      "GET",
-      "POST",
-      "PUT",
-      "DELETE",
-    ],
-
+    methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
 );
