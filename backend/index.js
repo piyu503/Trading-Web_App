@@ -9,6 +9,16 @@ require("cookie-parser");
 const authRoutes =
 require("./routes/authRoute");
 
+//Holding Route
+const HoldingsRoute =
+require("./routes/HoldingsRoute");
+app.use(HoldingsRoute);
+
+//Buy Route
+const BuyRoute =
+require("./routes/BuyRoute");
+app.use(BuyRoute);
+
 
 require("dotenv").config();   //env value go to system process 
 const express = require("express");
