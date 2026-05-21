@@ -26,9 +26,26 @@ const BuyActionWindow = ({
 
 
 
+  // MODE STATE ADDED
+  const [mode,
+  setMode] =
+  useState("BUY");
+
+
+
+  // LOADING STATE ADDED
+  const [loading,
+  setLoading] =
+  useState(false);
+
+
+
 
   const handleBuy =
   async () => {
+
+    // LOADING START
+    setLoading(true);
 
     try {
 
@@ -45,7 +62,8 @@ const BuyActionWindow = ({
 
           price: stockPrice,
 
-          mode: "BUY",
+          // MODE DYNAMIC NOW
+          mode,
         },
 
         {
@@ -57,6 +75,11 @@ const BuyActionWindow = ({
 
       alert(data.message);
 
+
+
+      // LOADING STOP
+      setLoading(false);
+
       closeBuyWindow();
 
       window.location.reload();
@@ -67,7 +90,17 @@ const BuyActionWindow = ({
 
       console.log(err);
 
-      alert("Buy Failed");
+
+
+      // LOADING STOP
+      setLoading(false);
+
+      alert(
+
+        err.response?.data?.message ||
+
+        `${mode} Failed`
+      );
     }
   };
 
@@ -84,6 +117,66 @@ const BuyActionWindow = ({
       <div
         className="regular-order"
       >
+
+
+
+
+        {/* BUY SELL TOGGLE ADDED */}
+
+        <div
+          style={{
+            display: "flex",
+            gap: "10px",
+            marginBottom: "20px",
+          }}
+        >
+
+          <button
+
+            className={
+              mode === "BUY"
+              ?
+              "btn btn-blue"
+              :
+              "btn btn-grey"
+            }
+
+            onClick={() =>
+              setMode("BUY")
+            }
+          >
+
+            BUY
+
+          </button>
+
+
+
+
+          <button
+
+            className={
+              mode === "SELL"
+              ?
+              "btn btn-blue"
+              :
+              "btn btn-grey"
+            }
+
+            onClick={() =>
+              setMode("SELL")
+            }
+          >
+
+            SELL
+
+          </button>
+
+        </div>
+
+
+
+
 
         <div className="inputs">
 
@@ -102,6 +195,7 @@ const BuyActionWindow = ({
             />
 
           </fieldset>
+
 
 
 
@@ -127,17 +221,22 @@ const BuyActionWindow = ({
 
 
 
+
         <div className="buttons">
 
           <span>
+
             Margin required ₹
+
             {
               (
                 stockQty *
                 stockPrice
               ).toFixed(2)
             }
+
           </span>
+
 
 
 
@@ -145,19 +244,30 @@ const BuyActionWindow = ({
           <div>
 
             <button
+
               className="btn btn-blue"
+
               onClick={handleBuy}
             >
 
-              Buy
+              {
+                loading
+                ?
+                "Processing..."
+                :
+                mode
+              }
 
             </button>
 
 
 
 
+
             <button
+
               className="btn btn-grey"
+
               onClick={
                 closeBuyWindow
               }

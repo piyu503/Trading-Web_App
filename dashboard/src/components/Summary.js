@@ -1,6 +1,9 @@
 import React, {
+
   useEffect,
+
   useState
+
 } from "react";
 
 import axios from "axios";
@@ -9,13 +12,65 @@ import axios from "axios";
 
 const Summary = () => {
 
-  const [user, setUser] =
+  const [summary,
+  setSummary] =
+  useState({
+
+    totalInvestment: 0,
+
+    currentValue: 0,
+
+    pnl: 0,
+
+    holdingsCount: 0,
+  });
+
+
+
+
+  const [user,
+  setUser] =
   useState(null);
 
 
 
 
   useEffect(() => {
+
+    const fetchSummary =
+    async () => {
+
+      try {
+
+        const res =
+        await axios.get(
+
+          "https://trading-web-app-7jrl.onrender.com/summary",
+
+          {
+            withCredentials: true,
+          }
+        );
+
+
+
+        if (res.data.success) {
+
+          setSummary(
+            res.data
+          );
+        }
+
+      }
+
+      catch (err) {
+
+        console.log(err);
+      }
+    };
+
+
+
 
     const fetchUser =
     async () => {
@@ -49,9 +104,19 @@ const Summary = () => {
       }
     };
 
+
+
+    fetchSummary();
+
     fetchUser();
 
   }, []);
+
+
+
+
+  const isProfit =
+  summary.pnl >= 0;
 
 
 
@@ -87,70 +152,101 @@ const Summary = () => {
       <div className="section">
 
         <span>
-          <p>Equity</p>
+          <p>Portfolio Summary</p>
         </span>
+
+
+
 
         <div className="data">
 
           <div className="first">
 
-            <h3>3.74k</h3>
+            <h3
+              className={
+                isProfit
+                ?
+                "profit"
+                :
+                "loss"
+              }
+            >
 
-            <p>Margin available</p>
+              ₹
+              {
+                summary.pnl
+                .toFixed(2)
+              }
 
-          </div>
-
-          <hr />
-
-          <div className="second">
-
-            <p>
-              Margins used <span>0</span>
-            </p>
-
-            <p>
-              Opening balance <span>3.74k</span>
-            </p>
-
-          </div>
-
-        </div>
-
-        <hr className="divider" />
-
-      </div>
-
-
-
-
-      <div className="section">
-
-        <span>
-          <p>Holdings (13)</p>
-        </span>
-
-        <div className="data">
-
-          <div className="first">
-
-            <h3 className="profit">
-              1.55k <small>+5.20%</small>
             </h3>
 
-            <p>P&L</p>
+            <p>Total P&L</p>
 
           </div>
 
+
+
+
           <hr />
+
+
+
 
           <div className="second">
 
             <p>
-              Current Value <span>31.43k</span>
+
+              Holdings
+
+              <span>
+
+                {
+                  summary
+                  .holdingsCount
+                }
+
+              </span>
+
             </p>
 
+
+
+
             <p>
-              Investment <span>29.88k</span>
+
+              Investment
+
+              <span>
+
+                ₹
+                {
+                  summary
+                  .totalInvestment
+                  .toFixed(2)
+                }
+
+              </span>
+
+            </p>
+
+
+
+
+            <p>
+
+              Current Value
+
+              <span>
+
+                ₹
+                {
+                  summary
+                  .currentValue
+                  .toFixed(2)
+                }
+
+              </span>
+
             </p>
 
           </div>

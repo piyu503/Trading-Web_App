@@ -10,6 +10,9 @@ require("../model/HoldingsModel");
 const OrdersModel =
 require("../model/OrdersModel");
 
+const PositionsModel =
+require("../model/PositionsModel");
+
 
 
 router.post("/buy",
@@ -82,7 +85,7 @@ async (req, res) => {
 
 
 
-        // CHECK EXISTING HOLDING
+        // FIND HOLDING
 
         const existingHolding =
         await HoldingsModel.findOne({
@@ -96,39 +99,197 @@ async (req, res) => {
 
 
 
-        if (existingHolding) {
+        // FIND POSITION
 
-            existingHolding.qty +=
-            Number(qty);
+        const existingPosition =
+        await PositionsModel.findOne({
 
-            existingHolding.price =
-            Number(price);
+            userId:
+            decoded.id,
 
-            await existingHolding.save();
+            name,
+        });
+
+
+
+
+        // ======================
+        // BUY LOGIC
+        // ======================
+
+        if (mode === "BUY") {
+
+            if (existingHolding) {
+
+                existingHolding.qty +=
+                Number(qty);
+
+                existingHolding.price =
+                Number(price);
+
+                await existingHolding.save();
+            }
+
+            else {
+
+                await HoldingsModel.create({
+
+                    userId:
+                    decoded.id,
+
+                    name,
+
+                    qty:
+                    Number(qty),
+
+                    avg:
+                    Number(price),
+
+                    price:
+                    Number(price),
+
+                    net: "+0%",
+
+                    day: "+0%",
+                });
+            }
+
+
+
+
+            if (existingPosition) {
+
+                existingPosition.qty +=
+                Number(qty);
+
+                existingPosition.price =
+                Number(price);
+
+                await existingPosition.save();
+            }
+
+            else {
+
+                await PositionsModel.create({
+
+                    userId:
+                    decoded.id,
+
+                    product: "CNC",
+
+                    name,
+
+                    qty:
+                    Number(qty),
+
+                    avg:
+                    Number(price),
+
+                    price:
+                    Number(price),
+
+                    net: "+0%",
+
+                    day: "+0%",
+
+                    isLoss: false,
+                });
+            }
         }
+
+
+
+
+        // ======================
+        // SELL LOGIC
+        // ======================
 
         else {
 
-            await HoldingsModel.create({
+            if (!existingHolding) {
 
-                userId:
-                decoded.id,
+                return res.json({
 
-                name,
+                    success: false,
 
-                qty:
-                Number(qty),
+                    message:
+                    "No holdings found",
+                });
+            }
 
-                avg:
-                Number(price),
 
-                price:
-                Number(price),
 
-                net: "+0%",
 
-                day: "+0%",
-            });
+            if (
+                existingHolding.qty <
+                Number(qty)
+            ) {
+
+                return res.json({
+
+                    success: false,
+
+                    message:
+                    "Insufficient quantity",
+                });
+            }
+
+
+
+
+            // REDUCE HOLDINGS
+
+            existingHolding.qty -=
+            Number(qty);
+
+
+
+
+            if (
+                existingHolding.qty === 0
+            ) {
+
+                await HoldingsModel.deleteOne({
+
+                    _id:
+                    existingHolding._id,
+                });
+            }
+
+            else {
+
+                await existingHolding.save();
+            }
+
+
+
+
+            // REDUCE POSITIONS
+
+            if (existingPosition) {
+
+                existingPosition.qty -=
+                Number(qty);
+
+
+
+
+                if (
+                    existingPosition.qty === 0
+                ) {
+
+                    await PositionsModel.deleteOne({
+
+                        _id:
+                        existingPosition._id,
+                    });
+                }
+
+                else {
+
+                    await existingPosition.save();
+                }
+            }
         }
 
 
@@ -139,7 +300,7 @@ async (req, res) => {
             success: true,
 
             message:
-            "Stock bought successfully",
+            `${mode} successful`,
         });
 
     }

@@ -20,6 +20,11 @@ require("./routes/BuyRoute");
 
 const OrdersRoute =
 require("./routes/OrdersRoute");
+const PositionsModel =
+require("../model/PositionsModel");
+const SummaryRoute =
+require("./routes/SummaryRoute");
+
 
 
 require("dotenv").config();   //env value go to system process 
@@ -61,6 +66,9 @@ app.use("/api/auth", authRoutes);
 app.use(HoldingsRoute);
 app.use(BuyRoute);
 app.use(OrdersRoute);
+app.use(PositionsRoute);
+app.use(SummaryRoute);
+
 
 
 app.get("/", (req, res) => {
