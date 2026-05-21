@@ -16,7 +16,7 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");      //parsing the data
 const cors = require("cors");                   //for secure link
 
-app.set("trust proxy", 1);
+
 
 const {HoldingsModel}=require('./model/HoldingsModel');
 
@@ -43,6 +43,7 @@ app.use(
   })
 );
 app.use(cookieParser());
+app.set("trust proxy", 1);
 app.use(express.json());
 
 app.use("/api/auth", authRoutes);
