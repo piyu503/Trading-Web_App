@@ -18,6 +18,8 @@ require("./routes/HoldingsRoute");
 const BuyRoute =
 require("./routes/BuyRoute");
 
+const OrdersRoute =
+require("./routes/OrdersRoute");
 
 
 require("dotenv").config();   //env value go to system process 
@@ -58,6 +60,8 @@ app.use("/api/auth", authRoutes);
 
 app.use(HoldingsRoute);
 app.use(BuyRoute);
+app.use(OrdersRoute);
+
 
 app.get("/", (req, res) => {
   res.send("Backend Running Successfully");
