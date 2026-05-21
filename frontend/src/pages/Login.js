@@ -1,5 +1,8 @@
 import { useState } from "react";
+
 import axios from "axios";
+
+
 
 function Login() {
 
@@ -12,11 +15,22 @@ function Login() {
 
 
 
+  // LOADING STATE ADDED HERE
+  const [loading, setLoading] =
+  useState(false);
+
+
+
 
   const handleSubmit =
   async (e) => {
 
     e.preventDefault();
+
+
+
+    // LOADING STARTED HERE
+    setLoading(true);
 
     try {
 
@@ -38,11 +52,19 @@ function Login() {
 
         alert(data.message);
 
+
+
+        // LOADING STOPPED HERE
+        setLoading(false);
+
         window.location.href =
           "https://main.d34gr18chlppqj.amplifyapp.com";
       }
 
       else {
+
+        // LOADING STOPPED HERE
+        setLoading(false);
 
         alert(data.message);
       }
@@ -53,6 +75,11 @@ function Login() {
 
       console.log(err);
 
+
+
+      // LOADING STOPPED HERE
+      setLoading(false);
+
       alert("Login Failed");
     }
   };
@@ -62,124 +89,157 @@ function Login() {
 
   return (
 
-    <div className="container">
+    <div
+      style={{
+        backgroundColor: "#f8f9fc",
+        minHeight: "100vh",
+      }}
+    >
 
-      <div
-        className="row justify-content-center align-items-center"
-        style={{
-          minHeight: "80vh",
-        }}
-      >
+      <div className="container">
 
-        <div className="col-lg-5 col-md-7 col-11">
+        <div
+          className="row justify-content-center align-items-center"
+          style={{
+            minHeight: "100vh",
+          }}
+        >
 
-          <div
-            className="bg-white p-5 border rounded-4 shadow-sm"
-          >
+          <div className="col-lg-5 col-md-7 col-11">
 
-            <h1
-              className="text-center mb-3"
+            <div
+              className="bg-white p-5 rounded-4"
               style={{
-                color: "#387ed1",
-                fontWeight: "600",
+                boxShadow:
+                "0 0 30px rgba(0,0,0,0.08)",
               }}
             >
-              Login
-            </h1>
 
-            <p
-              className="text-center text-muted mb-4"
-            >
-              Welcome back, continue your trading journey
-            </p>
+              <div className="text-center mb-4">
 
-
-
-            <form onSubmit={handleSubmit}>
-
-              <div className="mb-4">
-
-                <label className="form-label">
-                  Email
-                </label>
-
-                <input
-
-                  type="email"
-
-                  className="form-control p-3"
-
-                  placeholder="Enter your email"
-
-                  value={formData.email}
-
-                  onChange={(e) =>
-                    setFormData({
-
-                      ...formData,
-
-                      email:
-                      e.target.value,
-                    })
-                  }
+                <img
+                  src="/media/images/logo.svg"
+                  alt="logo"
+                  style={{
+                    width: "120px",
+                    marginBottom: "20px",
+                  }}
                 />
+
+                <h2
+                  style={{
+                    color: "#387ed1",
+                    fontWeight: "700",
+                  }}
+                >
+                  Welcome Back
+                </h2>
+
+                <p className="text-muted">
+
+                  Login to continue your trading journey
+
+                </p>
 
               </div>
 
 
 
 
-              <div className="mb-4">
+              <form onSubmit={handleSubmit}>
 
-                <label className="form-label">
-                  Password
-                </label>
+                <div className="mb-4">
 
-                <input
+                  <label className="form-label fw-semibold">
+                    Email
+                  </label>
 
-                  type="password"
+                  <input
 
-                  className="form-control p-3"
+                    type="email"
 
-                  placeholder="Enter your password"
+                    className="form-control p-3"
 
-                  value={formData.password}
+                    placeholder="Enter your email"
 
-                  onChange={(e) =>
-                    setFormData({
+                    value={formData.email}
 
-                      ...formData,
+                    onChange={(e) =>
+                      setFormData({
 
-                      password:
-                      e.target.value,
-                    })
+                        ...formData,
+
+                        email:
+                        e.target.value,
+                      })
+                    }
+                  />
+
+                </div>
+
+
+
+
+                <div className="mb-4">
+
+                  <label className="form-label fw-semibold">
+                    Password
+                  </label>
+
+                  <input
+
+                    type="password"
+
+                    className="form-control p-3"
+
+                    placeholder="Enter your password"
+
+                    value={formData.password}
+
+                    onChange={(e) =>
+                      setFormData({
+
+                        ...formData,
+
+                        password:
+                        e.target.value,
+                      })
+                    }
+                  />
+
+                </div>
+
+
+
+
+                <button
+
+                  type="submit"
+
+                  className="btn w-100 p-3"
+
+                  style={{
+                    backgroundColor: "#387ed1",
+                    color: "white",
+                    border: "none",
+                    fontWeight: "600",
+                    fontSize: "17px",
+                  }}
+                >
+
+                  {
+                    loading
+                    ?
+                    "Please wait..."
+                    :
+                    "Login"
                   }
-                />
 
-              </div>
+                </button>
 
+              </form>
 
-
-
-              <button
-
-                type="submit"
-
-                className="btn w-100 p-3"
-
-                style={{
-                  backgroundColor: "#387ed1",
-                  color: "white",
-                  fontWeight: "600",
-                  border: "none",
-                }}
-              >
-
-                Login
-
-              </button>
-
-            </form>
+            </div>
 
           </div>
 
