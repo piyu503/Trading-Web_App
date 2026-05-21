@@ -42,8 +42,8 @@ function Signup() {
 
         alert(data.message);
 
-        window.location.href =
-        "http://localhost:3001";
+          window.location.href =
+          "https://main.d34gr18chlppqj.amplifyapp.com";
       }
 
       else {
