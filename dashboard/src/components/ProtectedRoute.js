@@ -53,17 +53,15 @@ function ProtectedRoute({
         }
 
         else {
-
-          window.location.href =
-          "http://localhost:3000/login";
+            window.location.href =
+            "https://main.d26oajyyujqkke.amplifyapp.com/login";
         }
 
       }
 
       catch (err) {
-
         window.location.href =
-        "http://localhost:3000/login";
+        "https://main.d26oajyyujqkke.amplifyapp.com/login";
       }
 
 
