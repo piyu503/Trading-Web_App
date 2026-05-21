@@ -1,48 +1,35 @@
-import { useState } from "react";
-
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
-
-
 
 function Login() {
 
-  const [formData, setFormData] =
-  useState({
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-    email: "",
-    password: "",
-  });
-
-
-
-
-  const handleSubmit =
-  async (e) => {
+  const handleSubmit = async (e) => {
 
     e.preventDefault();
 
     try {
 
-      const { data } =
-      await axios.post(
-
-        "https://trading-web-app-7jrl.onrender.com/api/auth/login",
-
-        formData,
-
+      const { data } = await axios.post(
+        "https://trading-web-app-7jrl.onrender.com/login",
+        {
+          email,
+          password,
+        },
         {
           withCredentials: true,
         }
       );
 
-
-
       if (data.success) {
 
-        alert(data.message);
+        alert("Login Successful");
 
-          window.location.href =
-          "https://main.d34gr18chlppqj.amplifyapp.com";
+        window.location.href =
+        "https://main.d34gr18chlppqj.amplifyapp.com";
       }
 
       else {
@@ -55,68 +42,55 @@ function Login() {
     catch (err) {
 
       console.log(err);
-
-      alert("Login Failed");
+      alert("Something went wrong");
     }
   };
 
-
-
-
   return (
 
-    <div>
+    <div className="auth-container">
 
-      <h1>Login</h1>
+      <div className="auth-card">
 
+        <h1>Welcome Back</h1>
 
-      <form onSubmit={handleSubmit}>
+        <p className="auth-subtitle">
+          Login to continue trading smarter
+        </p>
 
-        <input
+        <form onSubmit={handleSubmit}>
 
-          type="email"
+          <input
+            type="email"
+            placeholder="Enter your email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
 
-          placeholder="Email"
+          <input
+            type="password"
+            placeholder="Enter your password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
 
-          onChange={(e) =>
-            setFormData({
+          <button type="submit">
+            Login
+          </button>
 
-              ...formData,
+        </form>
 
-              email:
-              e.target.value,
-            })
-          }
-        />
+        <p className="bottom-text">
+          Don’t have an account?
 
+          <Link to="/signup">
+            Signup
+          </Link>
+        </p>
 
-
-        <input
-
-          type="password"
-
-          placeholder="Password"
-
-          onChange={(e) =>
-            setFormData({
-
-              ...formData,
-
-              password:
-              e.target.value,
-            })
-          }
-        />
-
-
-
-        <button type="submit">
-
-          Login
-
-        </button>
-
-      </form>
+      </div>
 
     </div>
   );
