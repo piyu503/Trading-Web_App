@@ -1,8 +1,5 @@
 import { useState } from "react";
-
 import axios from "axios";
-
-
 
 function Signup() {
 
@@ -42,7 +39,7 @@ function Signup() {
 
         alert(data.message);
 
-          window.location.href =
+        window.location.href =
           "https://main.d34gr18chlppqj.amplifyapp.com";
       }
 
@@ -66,77 +63,162 @@ function Signup() {
 
   return (
 
-    <div>
+    <div className="container">
 
-      <h1>Signup</h1>
+      <div
+        className="row justify-content-center align-items-center"
+        style={{
+          minHeight: "80vh",
+        }}
+      >
 
+        <div className="col-lg-5 col-md-7 col-11">
 
-      <form onSubmit={handleSubmit}>
+          <div
+            className="bg-white p-5 border rounded-4 shadow-sm"
+          >
 
-        <input
+            <h1
+              className="text-center mb-3"
+              style={{
+                color: "#387ed1",
+                fontWeight: "600",
+              }}
+            >
+              Signup
+            </h1>
 
-          type="text"
-
-          placeholder="Username"
-
-          onChange={(e) =>
-            setFormData({
-
-              ...formData,
-
-              username:
-              e.target.value,
-            })
-          }
-        />
-
-
-
-        <input
-
-          type="email"
-
-          placeholder="Email"
-
-          onChange={(e) =>
-            setFormData({
-
-              ...formData,
-
-              email:
-              e.target.value,
-            })
-          }
-        />
+            <p
+              className="text-center text-muted mb-4"
+            >
+              Start your smart trading journey
+            </p>
 
 
 
-        <input
+            <form onSubmit={handleSubmit}>
 
-          type="password"
+              <div className="mb-4">
 
-          placeholder="Password"
+                <label className="form-label">
+                  Username
+                </label>
 
-          onChange={(e) =>
-            setFormData({
+                <input
 
-              ...formData,
+                  type="text"
 
-              password:
-              e.target.value,
-            })
-          }
-        />
+                  className="form-control p-3"
+
+                  placeholder="Enter your username"
+
+                  value={formData.username}
+
+                  onChange={(e) =>
+                    setFormData({
+
+                      ...formData,
+
+                      username:
+                      e.target.value,
+                    })
+                  }
+                />
+
+              </div>
 
 
 
-        <button type="submit">
 
-          Signup
+              <div className="mb-4">
 
-        </button>
+                <label className="form-label">
+                  Email
+                </label>
 
-      </form>
+                <input
+
+                  type="email"
+
+                  className="form-control p-3"
+
+                  placeholder="Enter your email"
+
+                  value={formData.email}
+
+                  onChange={(e) =>
+                    setFormData({
+
+                      ...formData,
+
+                      email:
+                      e.target.value,
+                    })
+                  }
+                />
+
+              </div>
+
+
+
+
+              <div className="mb-4">
+
+                <label className="form-label">
+                  Password
+                </label>
+
+                <input
+
+                  type="password"
+
+                  className="form-control p-3"
+
+                  placeholder="Enter your password"
+
+                  value={formData.password}
+
+                  onChange={(e) =>
+                    setFormData({
+
+                      ...formData,
+
+                      password:
+                      e.target.value,
+                    })
+                  }
+                />
+
+              </div>
+
+
+
+
+              <button
+
+                type="submit"
+
+                className="btn w-100 p-3"
+
+                style={{
+                  backgroundColor: "#387ed1",
+                  color: "white",
+                  fontWeight: "600",
+                  border: "none",
+                }}
+              >
+
+                Signup
+
+              </button>
+
+            </form>
+
+          </div>
+
+        </div>
+
+      </div>
 
     </div>
   );
